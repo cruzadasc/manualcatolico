@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofício Divino</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Cabeçalho com navegação -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo" data-translate="site-title"></a>
+            
+            <!-- Barra de pesquisa -->
+            <div class="search-container">
+                <input type="text" class="search-bar" id="searchInput" placeholder="Pesquisar (Ctrl+K)" data-translate="search-placeholder">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <!-- Links sociais e botões de utilidade -->
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                
+                <!-- Seletor de idiomas -->
+                <div class="language-button-container">
+                    <button class="language-button" id="languageToggle">
+                        <i class="fas fa-globe"></i>
+                        <span id="currentLanguage">PT</span>
+                    </button>
+                
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" data-lang="pt">
+                            <i class="fas fa-check"></i> Português
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <i class="fas fa-check"></i> English
+                        </div>
+                        <div class="language-option" data-lang="la">
+                            <i class="fas fa-check"></i> Latina
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Alternador de tema claro/escuro -->
+                <button id="toggleTheme" class="theme-toggle">
+                    <i class="fas fa-moon" id="darkIcon"></i>
+                    <i class="fas fa-sun" id="lightIcon" style="display: none;"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Modal de pesquisa -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-header">
+            <h2 data-translate="search-placeholder"></h2>
+            <button class="close-search" id="closeSearch">&times;</button>
+        </div>
+        <input type="text" class="modal-search-input" id="modalSearchInput" placeholder="Digite sua pesquisa" data-translate="search-input-placeholder">
+        <div class="search-results" id="searchResults">
+            <!-- Resultados da pesquisa serão inseridos aqui via JavaScript -->
+        </div>
+    </div>
+
+    <!-- Banner principal -->
+    <div class="featured-banner">
+        <div class="banner-content">
+            <h1 data-translate="banner-title">Ofício Divino</h1>
+            <p data-translate="banner-subtitle">Santificando o tempo com a oração da Igreja</p>
+            <a href="#oficio-divino" class="btn featured-btn" data-translate="banner-button">Começar a Rezar</a>
+        </div>
+    </div>
+    
+    <main id="conteudo">
+        <div class="card horario-atual">
+            <h2>Hora atual do Ofício</h2>
+            <p>De acordo com o horário do seu dispositivo, agora é tempo de rezar: <strong>${nomeDaHora}</strong></p>
+            <div>
+                <a href="#" class="btn" onclick="carregarPagina('${horaAtual}'); return false;">Rezar ${nomeDaHora} agora</a>
+                <button class="btn btn-outline" onclick="configurarNotificacoes()">Ativar notificações</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 data-translate="tituloimaculada"></h2>
+            <p data-translate="textoimaculada"></p>
+            
+            <div class="horas-grid">
+                <div class="hora-card" onclick="carregarPagina('matinas')">
+                    <i class="fas fa-moon hora-icon"></i>
+                    <h3>Matinas</h3>
+                    <p>Durante a noite, preparação para o dia</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('matinas'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('laudes')">
+                    <i class="fas fa-sun hora-icon"></i>
+                    <h3>Laudes</h3>
+                    <p>Oração da manhã, ao nascer do sol</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('laudes'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('prima')">
+                    <i class="fas fa-coffee hora-icon"></i>
+                    <h3>Prima</h3>
+                    <p>Primeira hora do dia (6h)</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('prima'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('terca')">
+                    <i class="fas fa-clock hora-icon"></i>
+                    <h3>Terça</h3>
+                    <p>Terceira hora do dia (9h)</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('terca'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('sexta')">
+                    <i class="fas fa-sun hora-icon"></i>
+                    <h3>Sexta</h3>
+                    <p>Sexta hora do dia (meio-dia)</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('sexta'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('noa')">
+                    <i class="fas fa-cloud-sun hora-icon"></i>
+                    <h3>Nona</h3>
+                    <p>Nona hora do dia (15h)</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('noa'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('vesperas')">
+                    <i class="fas fa-moon hora-icon"></i>
+                    <h3>Vésperas</h3>
+                    <p>Oração do entardecer</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('vesperas'); return false;">Rezar</a>
+                </div>
+                
+                <div class="hora-card" onclick="carregarPagina('completas')">
+                    <i class="fas fa-bed hora-icon"></i>
+                    <h3>Completas</h3>
+                    <p>Oração antes de dormir</p>
+                    <a href="#" class="btn btn-outline" onclick="carregarPagina('completas'); return false;">Rezar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção da Bíblia -->
+        <div class="card">
+            <h2 class="main-title">Sagrada Escritura</h2>
+                <div class="decorative-initial">
+                    <p>A Palavra de Deus é viva e eficaz. Através da Sagrada Escritura, Deus fala ao nosso coração e nos guia em nossa jornada espiritual. Explore os textos sagrados e aprofunde sua fé.</p>
+                </div>
+    
+            <div class="section-divider"></div>
+    
+            <div class="biblia-container">
+                <div class="biblia-info">
+                    <h3>Explore a Bíblia Sagrada</h3>
+                    <p>Acesse os livros do Antigo e Novo Testamento, faça pesquisas por palavra-chave, e salve seus versículos favoritos.</p>
+                    <a href="biblia.html" class="btn">Acessar a Bíblia <i class="fas fa-book"></i></a>
+                    <a href="#" class="btn btn-outline">Leitura do Dia <i class="fas fa-bookmark"></i></a>
+                </div>
+                <div class="biblia-image">
+                    <img src="/api/placeholder/300/200" alt="Bíblia Sagrada" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção dos Santos do Dia -->
+        <div class="card">
+            <h2 class="main-title">Santos e Festas do Dia</h2>
+            <p class="text-center">Celebrações litúrgicas para <span id="dataAtual">30 de abril de 2025</span></p>
+    
+            <div class="section-divider"></div>
+    
+            <div class="santos-container">
+                <div class="santo-col">
+                    <div class="santo-header">
+                        <i class="fas fa-church"></i>
+                        <h3>Forma Ordinária</h3>
+                        <p class="subtitle">Novus Ordo</p>
+                    </div>
+            
+                    <div class="santo-content">
+                        <h4>Santa Catarina de Siena</h4>
+                        <p class="festa-categoria">Memória</p>
+                        <p>Virgem e Doutora da Igreja, Padroeira da Europa. Nascida em 1347 em Siena, Itália, foi uma mística, teóloga e conselheira de papas.</p>
+                        <p class="cor-liturgica"><i class="fas fa-circle" style="color: var(--primary);"></i> Cor: Branco</p>
+                        <a href="#" class="btn btn-outline btn-sm">Ver detalhes</a>
+                    </div>
+                </div>
+        
+                <div class="separador-vertical"></div>
+        
+                    <div class="santo-col">
+                        <div class="santo-header">
+                            <i class="fas fa-cross"></i>
+                            <h3>Forma Extraordinária</h3>
+                            <p class="subtitle">Missa Tradicional</p>
+                        </div>
+            
+                        <div class="santo-content">
+                            <h4>Santa Catarina de Siena</h4>
+                            <p class="festa-categoria">III Classe</p>
+                            <p>Virgem. No calendário tradicional, celebra-se com especial devoção seu papel como conselheira papal e suas contribuições para a unidade da Igreja.</p>
+                            <p class="cor-liturgica"><i class="fas fa-circle" style="color: var(--primary);"></i> Cor: Branco</p>
+                            <a href="#" class="btn btn-outline btn-sm">Ver detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    
+    <footer>
+        <p data-translate="copyright"></p>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <!-- Traduções -->
+    <script src="traducoes\tcomum.js"></script>
+</body>
+</html>

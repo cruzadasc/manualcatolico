@@ -1,0 +1,1492 @@
+/* ======================================
+  VARIABLES & BASE STYLES
+====================================== */
+:root {
+    /* Colors - Light Mode */
+    --primary: #7b1113;
+    --primary-light: #9e2227;
+    --secondary: #694e2e;
+    --dark: #2b2417;
+    --light: #f9f6ed;
+    --white: #ffffff;
+    --gold: #c3a86a;
+    --gold-light: #e2d5b2;
+    --cream: #f9f7f0;
+    --rubric-color: #8b0000;
+    --initial-letter: #8a1518;
+
+    /* Functional Colors */
+    --card-bg: #f9f7f0;
+    --text-color: #2b2417;
+    --border-color: #d2c5a8;
+    --latin-bg: #f5eed7;
+    --vernacular-bg: #f9f7f0;
+    --rubric-bg: #faf2e4;
+
+    /* Shadows & Effects */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-soft: 0 6px 16px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --transition: all 0.3s ease;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode Overrides */
+    --primary: #bf5454;
+    --primary-light: #d17676;
+    --secondary: #9c8e7b;
+    --accent: #3f3a2e;
+    --dark: #f0e6d2;
+    --light: #292520;
+    --white: #352f26;
+    --gold: #a89162;
+    --gold-light: #8a7a5e;
+    --rubric-color: #d17676;
+    --initial-letter: #c75c5e;
+    --card-bg: #2d2820;
+    --text-color: #f0e6d2;
+    --border-color: #584e3d;
+    --latin-bg: #3f3a2e;
+    --vernacular-bg: #2d2820;
+    --rubric-bg: #35312a;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Libre Baskerville', 'Georgia', serif;
+    background-color: var(--light);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: var(--transition);
+    padding-bottom: 3rem;
+}
+
+/* ======================================
+  LAYOUT COMPONENTS
+====================================== */
+/* Header & Navigation */
+header {
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.social-icon, .theme-toggle {
+    color: var(--primary);
+    font-size: 1.2rem;
+    transition: var(--transition);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.social-icon:hover, .theme-toggle:hover {
+    color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+/* Botão alternador de tema */
+.theme-toggle {
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent);
+    color: var(--primary);
+    cursor: pointer;
+}
+
+/* Main Card */
+.card {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--gold-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--gold) 50%, var(--primary) 100%);
+}
+
+/* Title Container */
+.title-container {
+    text-align: center;
+    position: relative;
+    margin-bottom: 3rem;
+    padding-top: 1rem;
+}
+
+.main-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin: 1.5rem 0 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.main-title::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+}
+
+.title-ornament {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.ornament-icon {
+    color: var(--gold);
+    font-size: 1.8rem;
+    position: relative;
+    background-color: var(--card-bg);
+    padding: 0 1rem;
+    z-index: 1;
+}
+
+.ornament-icon::before,
+.ornament-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    width: 80px;
+}
+
+.ornament-icon::before {
+    right: 100%;
+    background: linear-gradient(90deg, var(--gold-light), transparent);
+}
+
+.ornament-icon::after {
+    left: 100%;
+    background: linear-gradient(90deg, transparent, var(--gold-light));
+}
+
+/* Prayer Containers */
+.prayer-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: var(--shadow-soft);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--gold-light);
+}
+
+.prayer-column {
+    padding: 1.5rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.prayer-column p {
+    margin: 0;
+    padding-top: 15px;
+}
+
+.latin {
+    background-color: var(--latin-bg);
+    position: relative;
+}
+
+.latin::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    right: 0;
+    height: 80%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
+}
+
+.vernacular {
+    background-color: var(--vernacular-bg);
+    font-family: 'EB Garamond', serif;
+}
+
+.column-title {
+    margin: 0;
+    padding: 0 0 8px 0;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border-color);
+    font-family: 'EB Garamond', serif;
+}
+
+/* ======================================
+  DIVISORES DE SEÇÃO
+====================================== */
+
+/* 1. Divisor Maior - Para principais divisões do ofício */
+.section-divider-major {
+    position: relative;
+    height: 3rem;
+    margin: 4rem 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-divider-major::before {
+    content: "✠";
+    /* Cruz */
+    font-size: 2rem;
+    color: var(--gold);
+    background-color: var(--card-bg);
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-divider-major::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%);
+    z-index: 0;
+}
+
+/* 2. Divisor Médio - O que você já está usando */
+.section-divider {
+    position: relative;
+    height: 1.5rem;
+    margin: 3rem 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-divider::before {
+    content: "❧";
+    /* Floreio */
+    font-size: 1.8rem;
+    color: var(--gold);
+    background-color: var(--card-bg);
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold-light) 50%, transparent 100%);
+    z-index: 0;
+}
+
+/* 3. Divisor Menor - Para subseções */
+.section-divider-minor {
+    position: relative;
+    height: 1rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-divider-minor::before {
+    content: "•";
+    /* Ponto */
+    font-size: 1.5rem;
+    color: var(--gold);
+    background-color: var(--card-bg);
+    padding: 0 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-divider-minor::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold-light) 50%, transparent 100%);
+    z-index: 0;
+}
+
+/* 4. Divisor Discreto - Pequena separação */
+.section-divider-subtle {
+    height: 1px;
+    margin: 1.5rem auto;
+    width: 50%;
+    background: linear-gradient(90deg, transparent 0%, var(--gold-light) 50%, transparent 100%);
+}
+
+/* 5. Divisor para Festas - Com símbolo mariano */
+.section-divider-feast {
+    position: relative;
+    height: 2rem;
+    margin: 3rem 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-divider-feast::before {
+    content: "⚜";
+    /* Flor de lis (símbolo mariano) */
+    font-size: 1.8rem;
+    color: var(--primary);
+    background-color: var(--card-bg);
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-divider-feast::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-light) 0%, var(--primary) 50%, var(--gold-light) 100%);
+    z-index: 0;
+}
+
+/* Page Decoration */
+.page-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3rem 0 1rem;
+}
+
+.decoration-line {
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+
+.decoration-symbol {
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin: 0 1rem;
+}
+
+/* ======================================
+  TYPOGRAPHY & TEXT ELEMENTS
+====================================== */
+.titulo-oracao {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    margin: 2.5rem 0 0.25rem;
+}
+
+.subtitulo-oracao {
+    margin-bottom: 2.5rem;
+    font-size: 0.9rem;
+    font-weight: 50;
+    font-style: italic;
+    color: var(--secondary);
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+.rubric {
+    background-color: var(--rubric-bg);
+    border-left: 4px solid var(--primary);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--primary);
+    border-radius: 0 6px 6px 0;
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+}
+
+.verse {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.response {
+    color: var(--secondary);
+}
+
+.capitular {
+    float: left;
+    font-size: 3.5rem;
+    line-height: 0.8;
+    color: var(--initial-letter);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    padding-right: 0.2rem;
+    padding-top: 0.5rem;
+}
+
+/* ======================================
+  BUTTONS & CONTROLS
+====================================== */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 400;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.7s;
+}
+
+.btn:hover::after {
+    left: 100%;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+/* Language Controls */
+.language-button-container {
+    position: relative;
+    margin-right: 10px;
+}
+
+.language-button {
+    background-color: var(--accent);
+    color: var(--primary);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.language-button i {
+    margin-right: 5px;
+}
+
+.language-button:hover {
+    background-color: var(--primary-light);
+    color: var(--white);
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 0;
+    width: 150px;
+    box-shadow: var(--shadow);
+    z-index: 200;
+    display: none;
+}
+
+.language-dropdown.show {
+    display: block;
+}
+
+.language-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex !important;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.language-option:hover {
+    background-color: var(--accent);
+}
+
+.language-option i {
+    margin-right: 8px;
+    width: 16px;
+}
+
+/* Text Size Controls */
+.text-size-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 4px;
+    background-color: var(--card-bg);
+    padding: 8px;
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+    z-index: 50;
+    border: 1px solid var(--gold-light);
+}
+
+.text-size-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--primary);
+    font-family: 'EB Garamond', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.text-size-btn:hover {
+    background-color: var(--gold-light);
+}
+
+/* ======================================
+  COMPONENTES DE UTILIDADE
+====================================== */
+/* Prayer Progress Indicator */
+.progresso-oracao {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 100;
+}
+
+.progresso-barra {
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.progresso-indicador {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--primary), var(--gold));
+    transition: width 0.2s ease;
+}
+
+/*======================================
+  SISTEMA DE BUSCA
+======================================*/
+
+/* Barra de busca */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: var(--card-bg);
+    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+    pointer-events: none;
+}
+
+/* Modal de busca */
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--card-bg);
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.search-modal.active {
+    transform: translateY(0);
+}
+
+.search-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.search-modal-header h2 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+}
+
+.modal-search-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1.2rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    font-family: 'Libre Baskerville', serif;
+    border-radius: 4px;
+}
+
+.modal-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.close-search {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.search-result-item {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.search-result-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-result-item h3 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-family: 'EB Garamond', serif;
+}
+
+/* ======================================
+  RESPONSIVE ADJUSTMENTS
+====================================== */
+@media (max-width: 992px) and (min-width: 769px) {
+    .card {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .section-divider-major,
+    .section-divider,
+    .section-divider-minor,
+    .section-divider-subtle,
+    .section-divider-feast {
+        margin: 2rem 0;
+    }
+    
+    .section-divider-major::before {
+        font-size: 1.8rem;
+    }
+    
+    .section-divider-feast::before {
+        font-size: 1.6rem;
+    }
+
+    .prayer-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .latin::after {
+        content: "";
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        bottom: 0;
+        height: 1px;
+        width: 80%;
+        background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .navbar {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .search-container {
+        order: 3;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .text-size-control {
+        bottom: 70px;
+    }
+}
+
+/* ======================================
+  SPECIAL MODES
+====================================== */
+/* Focus Mode */
+body.focus-mode {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+body.focus-mode .navbar,
+body.focus-mode .prayer-progress,
+body.focus-mode .text-size-control,
+body.focus-mode {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.focus-mode .card {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: var(--card-bg);
+    box-shadow: 0 0 60px rgba(195, 168, 106, 0.2);
+}
+
+/* Language Display Modes */
+.latin-only .prayer-column.vernacular {
+    display: none;
+}
+
+.latin-only .prayer-container {
+    grid-template-columns: 1fr;
+}
+
+.latin-only .prayer-column.latin {
+    text-align: center;
+}
+
+.vernacular-only .prayer-column.latin {
+    display: none;
+}
+
+.vernacular-only .prayer-container {
+    grid-template-columns: 1fr;
+}
+
+.vernacular-only .prayer-column.vernacular {
+    text-align: center;
+}
+
+.latin-only .prayer-column.latin .capitular,
+.vernacular-only .prayer-column.vernacular .capitular {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-right: 0.3rem;
+    padding-top: 0;
+}
+
+/* ======================
+   FLOATING CONTROLS
+   ====================== */
+
+/* Shared Container Styles */
+.language-display-options,
+.text-size-control {
+    position: fixed;
+    right: 20px;
+    display: flex;
+    background-color: var(--card-bg);
+    padding: 6px;
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gold-light);
+    /* Matching gold border */
+    gap: 3px;
+    z-index: 100;
+}
+
+/* Positioning */
+.language-display-options {
+    bottom: 84px;
+    /* 12px above text controls */
+}
+
+.text-size-control {
+    bottom: 20px;
+}
+
+/* Shared Button Styles */
+.display-mode-btn,
+.text-size-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: var(--primary);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+}
+
+/* Hover/Active States */
+.display-mode-btn:hover,
+.text-size-btn:hover {
+    background-color: var(--gold-light);
+}
+
+.display-mode-btn.active,
+.text-size-btn:active {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+
+    .language-display-options,
+    .text-size-control {
+        right: 15px;
+    }
+
+    .language-display-options {
+        bottom: 72px;
+    }
+
+    .display-mode-btn,
+    .text-size-btn {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/*=====================
+
+PAGINA INDEX DO OFICIO
+
+=====================*/
+
+.horas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.hora-card {
+    background-color: var(--card-bg);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.hour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--gold);
+}
+
+.hour-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--gold) 50%, var(--primary) 100%);
+}
+
+.hour-header {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--gold-light);
+}
+
+.hour-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin: 0;
+}
+
+.hour-latin {
+    font-style: italic;
+    color: var(--secondary);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}
+
+.hour-body {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hour-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.hour-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.hour-time i {
+    margin-right: 0.5rem;
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.welcome-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--secondary);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.welcome-text {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+.hero-banner {
+    position: relative;
+    background-color: var(--latin-bg);
+    border-radius: 8px;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    border: 1px solid var(--gold-light);
+    box-shadow: var(--shadow-soft);
+}
+
+.banner-ornament {
+    position: absolute;
+    font-size: 4rem;
+    color: var(--gold);
+    opacity: 0.15;
+}
+
+.banner-ornament.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.banner-ornament.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.hero-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+}
+
+.header-section {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.header-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.8rem;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.header-title::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.footer {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--secondary);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--gold-light);
+}
+
+.footer a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer a:hover {
+    color: var(--primary-light);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-banner {
+        padding: 2rem 1rem;
+    }
+
+    .banner-ornament {
+        font-size: 3rem;
+    }
+}
+
+/* Estilos específicos para o componente de citação */
+.saint-quote {
+    background-color: var(--latin-bg);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    position: relative;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--gold-light);
+}
+
+.saint-quote::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 5rem;
+    font-family: 'EB Garamond', serif;
+    color: var(--gold);
+    opacity: 0.5;
+    line-height: 1;
+}
+
+.quote-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.saint-attribution {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.saint-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.2rem;
+}
+
+.saint-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.quote-source {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    opacity: 0.9;
+}
+
+.quote-ornament {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.quote-ornament::before {
+    content: "✠";
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+/* Estilo para citações em destaque */
+.saint-quote.featured {
+    background: linear-gradient(to right, var(--card-bg), var(--latin-bg), var(--card-bg));
+    border-left: 4px solid var(--primary);
+    border-right: 4px solid var(--primary);
+}
+
+/* Estilo para citações de Doutores da Igreja */
+.saint-quote.doctor {
+    border: 2px solid var(--gold);
+}
+
+.saint-quote-simple {
+    border-left: 3px solid var(--gold);
+    padding: 0.8rem 1.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+    background-color: var(--rubric-bg);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.quote-text-simple {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
+
+.saint-attribution-simple {
+    text-align: right;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.saint-name-simple {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.quote-source-simple {
+    font-style: italic;
+    color: var(--secondary);
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Estilo para citações mais discretas em linha com o texto */
+.inline-quote {
+    font-style: italic;
+    color: var(--primary);
+    padding: 0 0.5rem;
+    border-left: 2px solid var(--gold-light);
+    margin: 0 0.2rem;
+}
+
+.inline-saint {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    font-style: normal;
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+/* Estilos originais (agora com mais opções) */
+.saint-quote {
+    background-color: var(--latin-bg);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    position: relative;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--gold-light);
+}
+
+.saint-quote::before {
+    content: "" ;
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 5rem;
+    font-family: 'EB Garamond', serif;
+    color: var(--gold);
+    opacity: 0.5;
+    line-height: 1;
+}
+
+.quote-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.saint-attribution {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.saint-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.2rem;
+}
+
+.saint-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.quote-source {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    opacity: 0.9;
+}
+
+.quote-ornament {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.quote-ornament::before {
+    content: "✠";
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+/* Estilo para citações em destaque */
+.saint-quote.featured {
+    background: linear-gradient(to right, var(--card-bg), var(--latin-bg), var(--card-bg));
+    border-left: 4px solid var(--primary);
+    border-right: 4px solid var(--primary);
+}
+
+/* Estilo para citações de Doutores da Igreja */
+.saint-quote.doctor {
+    border: 2px solid var(--gold);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .saint-quote {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .saint-quote::before {
+        font-size: 4rem;
+        top: -15px;
+    }
+
+    .quote-text {
+        font-size: 1.1rem;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .saint-quote {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .saint-quote::before {
+        font-size: 4rem;
+        top: -15px;
+    }
+
+    .quote-text {
+        font-size: 1.1rem;
+    }
+}

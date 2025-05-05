@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="page-name"></title>
+    <meta name="description" content="Completas">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-page="completas">
+    <!-- NAVEGAÇÃO -->
+    <header>
+        <nav class="navbar">
+            <a href="/index.html" class="logo" data-translate="site-title"></a>
+
+            <!-- BARRA DE PESQUISA -->
+            <div class="search-container">
+                <input type="text" class="search-bar" id="searchInput" placeholder="Pesquisar (Ctrl+K)"
+                    data-translate="search-placeholder">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <!-- BUTÕES DE FUNCIONAMENTO -->
+            <div class="social-links">
+                <!-- ICONES DAS REDES SOCIAIS -->
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+
+                <!-- TEMAS -->
+                <button id="toggleTheme" class="theme-toggle">
+                    <i class="fas fa-moon" id="darkIcon"></i>
+                    <i class="fas fa-sun" id="lightIcon" style="display: none;"></i>
+                </button>
+
+                <!-- CONTROLE DA LINGUA -->
+                <div class="language-button-container">
+                    <button class="language-button" id="languageToggle">
+                        <i class="fas fa-globe"></i>
+                        <span id="currentLanguage">PT</span>
+                    </button>
+
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" data-lang="pt">
+                            <i class="fas fa-check"></i> Português
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <i class="fas fa-check"></i> English
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTROLE DO TAMANHO DO TEXTO -->
+                <div class="text-size-control">
+                    <button class="text-size-btn" id="decreaseText">A-</button>
+                    <button class="text-size-btn" id="resetText">A</button>
+                    <button class="text-size-btn" id="increaseText">A+</button>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- SEARCH MODAL -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-header">
+            <h2 data-translate="search-placeholder"></h2>
+            <button class="close-search" id="closeSearch">&times;</button>
+        </div>
+        <input type="text" class="modal-search-input" id="modalSearchInput" placeholder="Digite sua pesquisa"
+            data-translate="search-input-placeholder">
+        <div class="search-results" id="searchResults">
+        </div>
+    </div>
+
+    <!-- INDICADOR DE PROGRESSO DA PAGINA -->
+    <div class="progresso-oracao">
+        <div class="progresso-barra">
+            <div class="progresso-indicador" id="progressoIndicador"></div>
+        </div>
+    </div>
+
+    <!-- CONTEUDO PRINCIPAL -->
+    <div class="card">
+        <!-- SECÇÃO DO TITULO -->
+        <div class="title-container">
+            <h2 class="main-title" data-translate="title"></h2>
+            <div class="title-ornament">
+                <span class="ornament-icon">✠</span>
+            </div>
+        </div>
+
+        <div class="rubric">
+            <p data-translate="rubrica1"></p>
+        </div>
+
+        <h3 class="titulo-oracao">Orationes Initiales</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-iniciais"></h3>
+
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="verse">V.</span> Convértat nos, Dómina, tuis précibus placátus, Jesus Christus, Fílius tuus.<br>
+                    <span class="response">R.</span> Et avértat iram suam a nobis.
+                </p>
+            </div>
+        
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="oracao-completas"></p>
+            </div>
+        </div>
+        
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="verse">V.</span> Dómina, (†) in adjutórium meum inténde.<br>
+                    <span class="response">R.</span> Me de manu hóstium poténter defénde.
+                </p>
+            </div>
+
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="oracao-inicial"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-minor"></div>
+
+        <!-- DOXOLOGIA MENOR -->
+        <div class="rubric">
+            <p data-translate="rubrica2"></p>
+        </div>
+
+        <h3 class="titulo-oracao">Doxologia Minor</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-doxologia"></h3>
+
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="verse">V.</span> Glória Patri, et Fílio, et Spirítui Sancto:.<br>
+                    <span class="response">R.</span> Sicut erat in princípio, et nunc, et sempér,
+                    et in saecula saeculórum. Amen. Allelúia.
+                </p>
+            </div>
+
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="doxologia"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-feast"></div>
+
+        <!-- HINO DO OFICIO -->
+        <h3 class="titulo-oracao">Hymnus: Salve, Virgo Florens</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-hino"></h3>
+
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="capitular">S</span>alve, Virgo florens,<br>
+                    Mater illibáta,<br>
+                    Regína cleméntiae,<br>
+                    Stellis coronáta.<br>
+                    <br>
+                    Super omnes Angelos,<br>
+                    Pura, immaculáta,<br>
+                    Atque ad Regis déxteram<br>
+                    Stans veste deauráta.<br>
+                    <br>
+                    Per te, Mater grátiae,<br>
+                    Dulcis spes reórum,<br>
+                    Fulgens stella maris,<br>
+                    Portus naufragórum,<br>
+                    <br>
+                    Patens coeli jánua,<br>
+                    Salus infirmórum,<br>
+                    Videámus Regem<br>
+                    In aula Sanctórum. Amen.
+                </p>
+            </div>
+
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="hino"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-subtle"></div>
+
+        <!-- RESPONSORIO DO HINO -->
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p>
+                <p><span class="verse">V.</span> Oleum effúsum, María, nomen tuum. <br>
+                    <span class="response">R.</span> Servi tui dilexérunt te nimis.<br>
+                <p><span class="verse">V.</span> Dómina, exaúdi oratiónem meam. <br>
+                    <span class="response">R.</span> Et clamor meus ad te véniat.
+                </p>
+            </div>
+
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="fim-hino"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-major"></div>
+
+        <h3 class="titulo-oracao">Orationes Finales</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-finais"></h3>
+
+        <div class="rubric">
+            <p data-translate="rubrica3"></p>
+        </div>
+
+        <!-- ORAÇÃO COLECTA -->
+        <h3 class="titulo-oracao">Collecta</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-coleta"></h3>
+
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="verse">V.</span> Orémus: Sancta María, Regína coelórum, Mater Dómini nostri Jesu
+                    Christi, et mundi Dómina, quae nullum derelínquis, et nullum déspicis; réspice me,
+                    Dómina, cleménter óculo pietátis, et ímpetra mihi apud tuum diléctum Fílium
+                    cunctórum veniam peccatórum: ut qui nunc tuam sanctam et Immaculátam Conceptiónem
+                    devóto afféctu récolo, aetérnae in futúrum beatitúdinis bravíum cápiam, ipso, quem virgo peperísti,
+                    donánte Dómino nostro Jesu Christo; qui cum Patre et Sancto Spíritu vivit et regnat, in
+                    Trinitáte perfécta, Deus, in saecula seculórum.<br><br><span class="response">R.</span> Amen.</p>
+            </div>
+
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="colecta"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-subtle"></div>
+
+        <!-- ORAÇÕES FINAIS -->
+        <div class="prayer-container">
+            <div class="prayer-column latin">
+                <!-- Orações em Latim -->
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p>
+                <p><span class="verse">V.</span> Dómina, exaúdi oratiónem meam. <br>
+                    <span class="response">R.</span> Et clamor meus ad te véniat. <br>
+                <p><span class="verse">V.</span> Benedicámus Dómino. <br>
+                    <span class="response">R.</span> Deo grátias. <br>
+                <p><span class="verse">V.</span> Fidélium ánimae, per misericórdiam Dei, requiéscant in pace. <br>
+                    <span class="response">R.</span> Amen.
+                </p>
+            </div>
+
+            <div class="prayer-column vernacular">
+                <!-- Orações em Vernáculo -->
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="oracao-final"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-feast"></div>
+
+        <h3 class="titulo-oracao">Commendatio</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-comendacao"></h3>
+
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="capitular">S</span>úpplices offérimus<br>
+                    Tibi, Virgo pia,<br>
+                    Haec laudum praecónia:<br>
+                    Fac nos ut in via<br>
+                    <br>
+                    Ducas cursu próspero;<br>
+                    Et in agonía<br>
+                    Tu nobis assíste,<br>
+                    O dulcis María. Amen.
+                    <br><br>
+                    <span class="response">R.</span> Deo grátias. <br>
+                </p>
+            </div>
+        
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="comendacao"></p>
+            </div>
+        </div>
+
+        <h3 class="titulo-oracao">Antiphona et Oratio Finalis Officii</h3>
+        <h3 class="subtitulo-oracao" data-translate="titulo-antifona"></h3>
+        
+        <div class="prayer-container">
+            <!-- Oração em Latim -->
+            <div class="prayer-column latin">
+                <h3 class="column-title" data-translate="langtitlelat"></h3>
+                <p><span class="capitular">H</span>aec est virga in qua nec nodus originalis, 
+                    nec cortex actualis culpae fuit.<br><br>
+                    <span class="verse">V.</span> In conceptióne tua virgo immaculáta fuísti.<br>
+                    <span class="response">R.</span> Ora pro nobis Patrem, cujus Fílium peperísti.<br><br>
+                    <span class="verse">V.</span> Oremus: Deus, qui per immaculátam Vírginis conceptionem 
+                    dignum Fílio tuo habitáculum praeparásti: quaesumus, ut qui ex
+                    morte ejusdem Fílii tui praevisa eam ab omni labe praeservásti, 
+                    nos quoque mundos ejus intercessione ad te perveníre
+                    concedas.<br><br>Per eundem Christum Dominum nostrum. Amen.
+                </p>
+            </div>
+        
+            <!-- Oração em Vernáculo -->
+            <div class="prayer-column vernacular">
+                <h3 class="column-title" data-translate="langtitle"></h3>
+                <p data-translate="fim-oficio"></p>
+            </div>
+        </div>
+
+        <div class="section-divider-major"></div>
+    </div>
+
+    <!-- APRESENTAÇÃO DAS LINGUAS -->
+    <div class="language-display-options">
+        <button class="display-mode-btn active" data-mode="both" title="Mostrar ambos os idiomas">
+            <i class="fas fa-language"></i>
+        </button>
+        <button class="display-mode-btn" data-mode="latin" title="Mostrar apenas latim">
+            <i class="fas fa-book"></i>
+        </button>
+        <button class="display-mode-btn" data-mode="vernacular" title="Mostrar apenas vernáculo">
+            <i class="fas fa-font"></i>
+        </button>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
