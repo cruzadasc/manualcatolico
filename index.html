@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ofício Divino</title>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title data-translate="page-name"></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,28 +12,38 @@
     <!-- Cabeçalho com navegação -->
     <header>
         <nav class="navbar">
-            <a href="#" class="logo" data-translate="site-title"></a>
-            
+            <div class="logo">
+                <a href="index.html" data-translate="site-title" class="logo">
+                </a>
+            </div>
+        
             <!-- Barra de pesquisa -->
             <div class="search-container">
-                <input type="text" class="search-bar" id="searchInput" placeholder="Pesquisar (Ctrl+K)" data-translate="search-placeholder">
+                <input type="text" class="search-bar" id="searchInput" placeholder="Pesquisar (Ctrl+K)"
+                    data-translate="search-placeholder">
                 <i class="fas fa-search search-icon"></i>
             </div>
-            
-            <!-- Links sociais e botões de utilidade -->
+        
+            <!-- Utility links -->
             <div class="social-links">
-                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                
+                <!-- Instagram -->
+                <a href="#" class="utility-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+        
+                <!-- Updates/Warning icon -->
+                <a href="/updates" class="utility-icon updates-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="updates-badge">3</span> <!-- Remove badge if no updates -->
+                </a>
+        
                 <!-- Seletor de idiomas -->
                 <div class="language-button-container">
                     <button class="language-button" id="languageToggle">
                         <i class="fas fa-globe"></i>
                         <span id="currentLanguage">PT</span>
                     </button>
-                
+        
                     <div class="language-dropdown" id="languageDropdown">
                         <div class="language-option" data-lang="pt">
                             <i class="fas fa-check"></i> Português
@@ -40,14 +51,11 @@
                         <div class="language-option" data-lang="en">
                             <i class="fas fa-check"></i> English
                         </div>
-                        <div class="language-option" data-lang="la">
-                            <i class="fas fa-check"></i> Latina
-                        </div>
                     </div>
                 </div>
-                
+        
                 <!-- Alternador de tema claro/escuro -->
-                <button id="toggleTheme" class="theme-toggle">
+                <button id="toggleTheme" class="utility-icon theme-toggle">
                     <i class="fas fa-moon" id="darkIcon"></i>
                     <i class="fas fa-sun" id="lightIcon" style="display: none;"></i>
                 </button>
@@ -70,22 +78,23 @@
     <!-- Banner principal -->
     <div class="featured-banner">
         <div class="banner-content">
-            <h1 data-translate="banner-title">Ofício Divino</h1>
-            <p data-translate="banner-subtitle">Santificando o tempo com a oração da Igreja</p>
-            <a href="#oficio-divino" class="btn featured-btn" data-translate="banner-button">Começar a Rezar</a>
+            <h1 data-translate="banner-title"></h1>
+            <p data-translate="banner-subtitle"></p>
+            <a href="#oficio-divino" class="btn featured-btn" data-translate="banner-button"></a>
         </div>
     </div>
     
     <main id="conteudo">
         <div class="card horario-atual">
-            <h2>Hora atual do Ofício</h2>
-            <p>De acordo com o horário do seu dispositivo, agora é tempo de rezar: <strong>${nomeDaHora}</strong></p>
+            <h2 data-translate="titulo-hora"></h2>
+            <p data-translate="texto-hora"></p>
             <div>
-                <a href="#" class="btn" onclick="carregarPagina('${horaAtual}'); return false;">Rezar ${nomeDaHora} agora</a>
+                <a href="#" class="btn" onclick="carregarPagina('${nomeDaHora}'); return false;" data-translate="texto-botao1"></a>
                 <button class="btn btn-outline" onclick="configurarNotificacoes()">Ativar notificações</button>
             </div>
         </div>
         
+        <!-- ======= CARD COM TODAS AS HORAS
         <div class="card">
             <h2 data-translate="tituloimaculada"></h2>
             <p data-translate="textoimaculada"></p>
@@ -148,6 +157,8 @@
                 </div>
             </div>
         </div>
+
+        ======= -->
 
         <!-- Seção da Bíblia -->
         <div class="card">
@@ -221,8 +232,5 @@
     </footer>
 
     <script src="script.js"></script>
-
-    <!-- Traduções -->
-    <script src="traducoes\tcomum.js"></script>
 </body>
 </html>

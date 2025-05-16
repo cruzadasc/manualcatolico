@@ -15,36 +15,38 @@
     <!-- NAVEGAÇÃO -->
     <header>
         <nav class="navbar">
-            <a href="/index.html" class="logo" data-translate="site-title"></a>
-
-            <!-- BARRA DE PESQUISA -->
+            <div class="logo">
+                <a href=" /index.html" data-translate="site-title" class="logo">
+                </a>
+            </div>
+    
+            <!-- Barra de pesquisa -->
             <div class="search-container">
                 <input type="text" class="search-bar" id="searchInput" placeholder="Pesquisar (Ctrl+K)"
                     data-translate="search-placeholder">
                 <i class="fas fa-search search-icon"></i>
             </div>
-
-            <!-- BUTÕES DE FUNCIONAMENTO -->
+    
+            <!-- Utility links -->
             <div class="social-links">
-                <!-- ICONES DAS REDES SOCIAIS -->
-                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-
-                <!-- TEMAS -->
-                <button id="toggleTheme" class="theme-toggle">
-                    <i class="fas fa-moon" id="darkIcon"></i>
-                    <i class="fas fa-sun" id="lightIcon" style="display: none;"></i>
-                </button>
-
-                <!-- CONTROLE DA LINGUA -->
+                <!-- Instagram -->
+                <a href="#" class="utility-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+    
+                <!-- Updates/Warning icon -->
+                <a href="/updates" class="utility-icon updates-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="updates-badge">3</span> <!-- Remove badge if no updates -->
+                </a>
+    
+                <!-- Seletor de idiomas -->
                 <div class="language-button-container">
                     <button class="language-button" id="languageToggle">
                         <i class="fas fa-globe"></i>
                         <span id="currentLanguage">PT</span>
                     </button>
-
+    
                     <div class="language-dropdown" id="languageDropdown">
                         <div class="language-option" data-lang="pt">
                             <i class="fas fa-check"></i> Português
@@ -52,19 +54,14 @@
                         <div class="language-option" data-lang="en">
                             <i class="fas fa-check"></i> English
                         </div>
-                        <div class="language-option" data-lang="la">
-                            <i class="fas fa-check"></i> Latina
-                        </div>
                     </div>
                 </div>
-
-                <!-- CONTROLE DO TAMANHO DO TEXTO -->
-                <div class="text-size-control">
-                    <button class="text-size-btn" id="decreaseText">A-</button>
-                    <button class="text-size-btn" id="resetText">A</button>
-                    <button class="text-size-btn" id="increaseText">A+</button>
-                </div>
-
+    
+                <!-- Alternador de tema claro/escuro -->
+                <button id="toggleTheme" class="utility-icon theme-toggle">
+                    <i class="fas fa-moon" id="darkIcon"></i>
+                    <i class="fas fa-sun" id="lightIcon" style="display: none;"></i>
+                </button>
             </div>
         </nav>
     </header>

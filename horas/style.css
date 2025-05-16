@@ -70,13 +70,16 @@ body {
 /* ======================================
   LAYOUT COMPONENTS
 ====================================== */
-/* Header & Navigation */
+/*------------------------------------------------------------------------------
+  4.1 Cabeçalho e Navegação
+------------------------------------------------------------------------------*/
 header {
     background-color: var(--card-bg);
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background-color 0.3s ease;
     border-bottom: 2px solid var(--border-color);
 }
 
@@ -84,19 +87,26 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0.8rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
     color: var(--primary);
-    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
     text-decoration: none;
     transition: var(--transition);
+}
+
+.logo:hover {
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.logo a {
+    text-decoration: none;
 }
 
 .social-links {
@@ -105,7 +115,9 @@ header {
     align-items: center;
 }
 
-.social-icon, .theme-toggle {
+.social-icon,
+.utility-icon,
+.theme-toggle {
     color: var(--primary);
     font-size: 1.2rem;
     transition: var(--transition);
@@ -114,7 +126,9 @@ header {
     cursor: pointer;
 }
 
-.social-icon:hover, .theme-toggle:hover {
+.social-icon:hover,
+.utility-icon:hover,
+.theme-toggle:hover {
     color: var(--primary-light);
     transform: translateY(-2px);
 }
@@ -128,7 +142,6 @@ header {
     justify-content: center;
     background-color: var(--accent);
     color: var(--primary);
-    cursor: pointer;
 }
 
 /* Main Card */
@@ -497,6 +510,22 @@ header {
 /* ======================================
   BUTTONS & CONTROLS
 ====================================== */
+/* Ícones de utilidade */
+.utility-icon {
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.utility-icon:hover {
+    text-decoration: none;
+    background-color: var(--accent);
+}
+
+/* Botões estilo tradicional */
 .btn {
     display: inline-block;
     padding: 0.8rem 1.5rem;
@@ -512,29 +541,12 @@ header {
     text-align: center;
     margin-right: 0.5rem;
     margin-top: 1rem;
-    position: relative;
-    overflow: hidden;
 }
 
 .btn:hover {
     background-color: var(--primary-light);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
-}
-
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.7s;
-}
-
-.btn:hover::after {
-    left: 100%;
 }
 
 .btn-outline {
@@ -546,6 +558,31 @@ header {
 .btn-outline:hover {
     background-color: var(--primary);
     color: var(--light);
+}
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Badge de notificações */
+.updates-icon {
+    position: relative;
+}
+
+.updates-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .action-buttons {
@@ -684,9 +721,9 @@ header {
 
 /* Barra de busca */
 .search-container {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
+    flex: 2;
+    min-width: 250px;
+    max-width: 500px;
 }
 
 .search-bar {

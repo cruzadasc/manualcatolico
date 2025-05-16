@@ -5,9 +5,8 @@
 - **en**: Matins | Office of the Immaculate Conception  
 
 ## [site-title]
-- **pt**: Oficio Divino  
-- **en**: Divine Office  
-- **la**: Matutinum - Officium Parvum Beatae Mariae Virginis  
+- **pt**: Manual Católico 
+- **en**: Catholic Manual
 
 ## [title]
 - **pt**: Hora das Matinas
@@ -100,8 +99,8 @@
 - **en**: Prime | Office of the Immaculate Conception  
 
 ## [site-title]
-- **pt**: Oficio Divino  
-- **en**: Divine Office  
+- **pt**: Manual Católico 
+- **en**: Catholic Manual
 
 ## [title]
 - **pt**: Hora Prima
@@ -196,9 +195,8 @@
 - **en**: Terce | Office of the Immaculate Conception  
 
 ## [site-title]
-- **pt**: Oficio Divino  
-- **en**: Divine Office  
-- **la**: Matutinum - Officium Parvum Beatae Mariae Virginis  
+- **pt**: Manual Católico 
+- **en**: Catholic Manual 
 
 ## [title]
 - **pt**: Hora da Terça
@@ -292,8 +290,8 @@
 - **en**: Sext | Office of the Immaculate Conception  
 
 ## [site-title]
-- **pt**: Oficio Divino  
-- **en**: Divine Office  
+- **pt**: Manual Católico 
+- **en**: Catholic Manual
 
 ## [title]
 - **pt**: Hora da Sexta
@@ -391,8 +389,8 @@
 - **en**: None | Office of the Immaculate Conception  
 
 ## [site-title]
-- **pt**: Oficio Divino  
-- **en**: Divine Office  
+- **pt**: Manual Católico 
+- **en**: Catholic Manual
 
 ## [matins-title]
 - **pt**: Hora da Noa
@@ -504,8 +502,8 @@
 
 
 ## [site-title]
-- **pt**: Oficio Divino  
-- **en**: Divine Office  
+- **pt**: Manual Católico 
+- **en**: Catholic Manual
 
 ## [matins-title]
 - **pt**: Hora das Vésperas

@@ -3,37 +3,32 @@
  * Sistema com carregamento de páginas HTML completas
  */
 
-// Namespaces e constantes globais
 const APP = {
     // Configurações da aplicação
     config: {
-        languages: ['pt', 'en', 'la'],
+        languages: ['pt', 'en'],
         defaultLanguage: 'pt',
         defaultTheme: 'light',
         horaOficio: {
-            matinas: { hora: 3, minuto: 0, nome: 'Matinas', descricao: 'Oração durante a noite' },
-            laudes: { hora: 5, minuto: 0, nome: 'Laudes', descricao: 'Oração da manhã' },
-            prima: { hora: 6, minuto: 30, nome: 'Prima', descricao: 'Primeira hora do dia (6h)' },
-            terca: { hora: 9, minuto: 0, nome: 'Terça', descricao: 'Terceira hora do dia (9h)' },
-            sexta: { hora: 12, minuto: 0, nome: 'Sexta', descricao: 'Oração do meio-dia' },
-            noa: { hora: 15, minuto: 0, nome: 'Nona', descricao: 'Nona hora do dia (15h)' },
-            vesperas: { hora: 18, minuto: 0, nome: 'Vésperas', descricao: 'Oração do entardecer' },
-            completas: { hora: 21, minuto: 0, nome: 'Completas', descricao: 'Oração antes de dormir' }
+            matinas: { hora: 3, minuto: 0 },
+            laudes: { hora: 5, minuto: 0 },
+            prima: { hora: 6, minuto: 30 },
+            terca: { hora: 9, minuto: 0 },
+            sexta: { hora: 12, minuto: 0 },
+            noa: { hora: 15, minuto: 0 },
+            vesperas: { hora: 18, minuto: 0 },
+            completas: { hora: 21, minuto: 0 }
         }
     },
     
-    // Cache de elementos DOM para melhor performance
+    // Cache de elementos DOM
     elements: {
-        // Retorna o elemento ou null se não encontrado
         get: function(id) {
             const el = document.getElementById(id);
-            if (!el) {
-                console.warn(`Elemento com ID "${id}" não encontrado`);
-            }
+            if (!el) console.warn(`Elemento com ID "${id}" não encontrado`);
             return el;
         },
         
-        // Mapeamento de IDs para elementos DOM
         languageToggle: () => APP.elements.get('languageToggle'),
         currentLanguage: () => APP.elements.get('currentLanguage'),
         languageDropdown: () => APP.elements.get('languageDropdown'),
@@ -48,10 +43,11 @@ const APP = {
         conteudo: () => APP.elements.get('conteudo'),
     },
     
-    // Armazenamento de dados para a aplicação
+    // Armazenamento de dados
     data: {
-        // Dados para o sistema de pesquisa
-        searchItems: []
+        searchItems: [],
+        translations: {},
+        notificationTimer: null
     },
     
     // Estado da aplicação
@@ -65,74 +61,42 @@ const APP = {
     // Inicialização do aplicativo
     init: function() {
         console.log('Inicializando aplicação...');
-        
-        // Inicializar subsistemas
-        this.initData();
         this.initLanguageSystem();
         this.initThemeSystem();
         this.initSearchSystem();
         this.initHoraSystem();
         this.initEventListeners();
-        
-        // Detectar a página atual com base na URL
         this.detectCurrentPage();
-        
         console.log('Aplicação inicializada com sucesso!');
     },
     
-    // Inicialização de dados
-    initData: function() {
-        // Preencher dados de pesquisa com base nas horas do ofício
-        this.data.searchItems = Object.entries(this.config.horaOficio).map(([key, value]) => {
-            return {
-                title: value.nome,
-                description: value.descricao,
-                link: 'horas/' + key + '.html'
-            };
-        });
-    },
-    
-    // Detectar a página atual com base na URL
+    // Detectar a página atual
     detectCurrentPage: function() {
-        // Obter o caminho atual
         let path = window.location.pathname;
         let filename = path.substring(path.lastIndexOf('/') + 1);
-        
-        // Remover a extensão .html do nome do arquivo
         let pageName = filename.replace(/\.html$/, '');
         
-        // Se for página vazia ou index, considerar como página principal
-        if (pageName === '' || pageName === 'index') {
-            pageName = 'index';
-        }
+        if (pageName === '' || pageName === 'index') pageName = 'index';
         
         console.log('Página atual detectada:', pageName);
         this.state.currentPage = pageName;
         
-        // Inicializar UI específica para a página atual
-        if (pageName === 'index') {
-            this.hora.updateHoraUI();
-        }
+        if (pageName === 'index') this.hora.updateHoraUI();
     },
     
     // Sistema de idiomas
     language: {
-        // Inicialização do sistema de idiomas
         init: function() {
-            // Carregar o idioma salvo ou o padrão
             const savedLang = localStorage.getItem('preferredLanguage') || APP.config.defaultLanguage;
             APP.state.currentLanguage = savedLang;
-            
-            // Inicializar UI dos idiomas
-            this.setupToggleUI();
-            
-            // Aplicar o idioma atual
-            this.applyLanguage(savedLang);
-            
-            console.log('Sistema de idiomas inicializado:', savedLang);
+            this.loadTranslations().then(() => {
+                this.setupToggleUI();
+                this.applyLanguage(savedLang);
+                this.initSearchData();
+                console.log('Sistema de idiomas inicializado:', savedLang);
+            });
         },
         
-        // Configurar a interface do seletor de idiomas
         setupToggleUI: function() {
             const languageButton = APP.elements.languageToggle();
             const dropdown = APP.elements.languageDropdown();
@@ -143,169 +107,284 @@ const APP = {
                 return;
             }
             
-            // Atualizar texto do idioma atual
             currentLangEl.textContent = APP.state.currentLanguage.toUpperCase();
             
-            // Configurar eventos de clique para as opções de idioma
+            // Esconder todos os ícones de verificação inicialmente
+            dropdown.querySelectorAll('.language-option i').forEach(icon => {
+                icon.style.visibility = 'hidden';
+            });
+            
+            // Mostrar apenas o ícone do idioma atual
+            const currentOption = dropdown.querySelector(`.language-option[data-lang="${APP.state.currentLanguage}"]`);
+            if (currentOption) {
+                const icon = currentOption.querySelector('i');
+                if (icon) icon.style.visibility = 'visible';
+            }
+            
+            // Adicionar event listeners para as opções
             const options = dropdown.querySelectorAll('.language-option');
             options.forEach(option => {
                 option.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const lang = this.getAttribute('data-lang');
-                    
-                    // Atualizar UI
                     currentLangEl.textContent = lang.toUpperCase();
                     APP.language.updateCheckIcons(dropdown, lang);
-                    
-                    // Mudar idioma
                     APP.language.applyLanguage(lang);
-                    
-                    // Fechar dropdown
                     dropdown.classList.remove('show');
                 });
             });
             
-            // Abrir/fechar dropdown ao clicar no botão
+            // Toggle do dropdown
             languageButton.addEventListener('click', function(e) {
                 e.stopPropagation();
                 dropdown.classList.toggle('show');
             });
             
-            // Fechar dropdown ao clicar em qualquer lugar
+            // Fechar dropdown ao clicar fora
             document.addEventListener('click', function() {
                 dropdown.classList.remove('show');
             });
         },
         
-        // Atualizar os ícones de verificação no dropdown
         updateCheckIcons: function(dropdown, selectedLang) {
-            // Esconder todos os ícones
             dropdown.querySelectorAll('.language-option i').forEach(icon => {
                 icon.style.visibility = 'hidden';
             });
             
-            // Mostrar apenas o ícone do idioma selecionado
             const selectedOption = dropdown.querySelector(`.language-option[data-lang="${selectedLang}"]`);
             if (selectedOption) {
                 const icon = selectedOption.querySelector('i');
-                if (icon) {
-                    icon.style.visibility = 'visible';
-                }
+                if (icon) icon.style.visibility = 'visible';
             }
         },
         
-        // Aplicar o idioma selecionado à interface
         applyLanguage: function(lang) {
             if (!lang) return;
             
-            // Atualizar estado e salvar preferência
             APP.state.currentLanguage = lang;
             localStorage.setItem('preferredLanguage', lang);
             
-            // Mostrar/ocultar elementos específicos de idioma
+            // Atualizar elementos com data-lang
             document.querySelectorAll('[data-lang]').forEach(element => {
-                if (element.getAttribute('data-lang') === lang) {
-                    element.style.display = 'block';
-                } else {
-                    element.style.display = 'none';
-                }
+                element.style.display = element.getAttribute('data-lang') === lang ? 'block' : 'none';
             });
             
-            // Modo especial para latim (se necessário)
-            document.documentElement.classList.toggle('latin-mode', lang === 'la');
+            // Atualizar a hora atual antes de aplicar as traduções
+            if (APP.state.horaAtual) {
+                const horaId = APP.state.horaAtual.id;
+                APP.state.horaAtual.nome = this.getHourName(horaId, lang);
+                APP.state.horaAtual.descricao = this.getHourDescription(horaId, lang);
+            }
             
             // Atualizar elementos traduzíveis
             this.updateTranslatableElements(lang);
             
-            // Atualizar título da página
-            this.updatePageTitle(lang);
+            // Atualizar nomes das horas quando o idioma muda
+            if (APP.state.currentPage === 'index') {
+                APP.hora.updateHoraUI();
+            }
             
             console.log('Idioma aplicado:', lang);
         },
         
-        // Obter todas as traduções disponíveis
-        getAllTranslations: function() {
-            // Iniciar com traduções comuns (se disponíveis)
-            let allTranslations = {};
-            
-            if (typeof commonTranslations !== 'undefined') {
-                allTranslations = { ...commonTranslations };
-            }
-            
-            // Adicionar outras traduções específicas da página (se disponíveis)
-            if (typeof matinasTranslations !== 'undefined') {
-                Object.assign(allTranslations, matinasTranslations);
-            }
-            
-            return allTranslations;
-        },
-        
-        // Atualizar elementos com atributo data-translate
         updateTranslatableElements: function(lang) {
-            const translations = this.getAllTranslations();
-            
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
-                if (translations[key] && translations[key][lang]) {
-                    element.innerHTML = translations[key][lang].replace(/\n/g, '<br>');
+                
+                // Verifica se há atributos data-var-* para substituir variáveis na tradução
+                const variables = {};
+                for (const attr of element.attributes) {
+                    if (attr.name.startsWith('data-var-')) {
+                        const varName = attr.name.substring(9); // remove 'data-var-'
+                        variables[varName] = attr.value;
+                    }
+                }
+                
+                // Para variáveis dinâmicas como hora atual
+                if (APP.state.horaAtual) {
+                    variables.nomeDaHora = APP.state.horaAtual.nome;
+                    variables.descricaoDaHora = APP.state.horaAtual.descricao;
+                }
+                
+                const translation = this.getTranslation(key, lang, variables);
+                
+                if (translation) {
+                    element.innerHTML = translation;
+                } else {
+                    console.warn(`Tradução ausente: ${key} (${lang})`);
                 }
             });
         },
         
-        // Atualizar o título da página de acordo com o idioma
-        updatePageTitle: function(lang) {
-            // Títulos padrão por idioma
-            const defaultTitles = {
-                'pt': 'Ofício Divino',
-                'en': 'Divine Office',
-                'la': 'Officium Divinum'
-            };
+        getTranslation: function(key, lang, variables = {}) {
+            const translations = APP.data.translations;
+
+            // Primeiro verificamos se existe uma tradução específica para a página atual
+            const currentPageKey = APP.state.currentPage || 'index';
+            let translation = null;
             
-            // Determinar o título com base na página atual e traduções disponíveis
-            let title = defaultTitles[lang];
-            const translations = this.getAllTranslations();
-            
-            if (APP.state.currentPage === 'matinas' && translations['matins-title']?.[lang]) {
-                title = translations['matins-title'][lang];
-            } else if (translations['site-title']?.[lang]) {
-                title = translations['site-title'][lang];
+            if (translations[currentPageKey] && 
+                translations[currentPageKey][key] && 
+                translations[currentPageKey][key][lang]) {
+                translation = translations[currentPageKey][key][lang];
+            }
+            // Se não encontrar, verifica nas traduções globais
+            else if (translations.global && 
+                translations.global[key] && 
+                translations.global[key][lang]) {
+                translation = translations.global[key][lang];
             }
             
-            document.title = title;
+            // Se encontrou uma tradução, processa as variáveis
+            if (translation) {
+                // Substitui todas as variáveis no formato ${nome}
+                return translation.replace(/\${(\w+)}/g, function(match, varName) {
+                    return variables[varName] !== undefined ? variables[varName] : match;
+                });
+            }
+            
+            return null;
         },
         
-        // Obter o nome completo do idioma
-        getLanguageName: function(langCode) {
-            const names = {
-                'pt': 'Português',
-                'en': 'English',
-                'la': 'Latina'
+        loadTranslations: async function() {
+            try {
+                const response = await fetch('principal.md');
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar traduções: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                APP.data.translations = this.parseTranslations(text);
+                console.log('Traduções carregadas com sucesso:', APP.data.translations);
+                return true;
+            } catch (error) {
+                console.error('Erro ao carregar traduções:', error);
+                APP.data.translations = {};
+                return false;
+            }
+        },
+        
+        parseTranslations: function(mdContent) {
+            const result = {
+                global: {},
+                index: {},
+                matinas: {},
+                laudes: {},
+                prima: {},
+                terca: {},
+                sexta: {},
+                noa: {},
+                vesperas: {},
+                completas: {}
             };
             
-            return names[langCode] || langCode;
+            // Dividir o conteúdo em seções usando cabeçalhos de nível 2
+            const sections = mdContent.split(/^## /m).slice(1);
+            
+            for (const section of sections) {
+                // Extrair o título da seção (pode conter uma indicação de página)
+                const titleLine = section.split('\n')[0].trim();
+                let key = titleLine.replace(/[\[\]]/g, '').trim();
+                let page = 'global'; // Por padrão, todas as traduções são globais
+                
+                // Verifica se o título contém indicação de página específica
+                const pageMatch = key.match(/^(\w+):/);
+                if (pageMatch) {
+                    page = pageMatch[1];
+                    key = key.substring(page.length + 1).trim();
+                }
+                
+                // Inicializar o objeto para esta chave se não existir
+                if (!result[page]) result[page] = {};
+                result[page][key] = {};
+                
+                // Processar cada linha para extrair traduções específicas do idioma
+                const lines = section.split('\n');
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    
+                    // Formato esperado: - **pt**: texto de tradução
+                    const langMatch = line.match(/^-\s+\*{0,2}(\w{2})\*{0,2}:\s+(.+)/);
+                    if (langMatch) {
+                        const [_, lang, text] = langMatch;
+                        result[page][key][lang] = text.trim();
+                    }
+                }
+            }
+            
+            return result;
+        },
+        
+        initSearchData: function() {
+            // Preencher dados de pesquisa com base nas horas do ofício
+            APP.data.searchItems = Object.entries(APP.config.horaOficio).map(([key, value]) => {
+                const horaNome = this.getHourName(key, APP.state.currentLanguage);
+                const horaDesc = this.getHourDescription(key, APP.state.currentLanguage);
+                
+                return {
+                    id: key,
+                    title: horaNome,
+                    description: horaDesc,
+                    link: 'horas/' + key + '.html'
+                };
+            });
+        },
+        
+        getHourName: function(horaId, lang) {
+            // Primeiro tenta obter do sistema de traduções
+            const translation = this.getTranslation(`hora_${horaId}`, lang);
+            if (translation) return translation;
+            
+            // Fallback para nomes predefinidos
+            const defaultNames = {
+                matinas: { pt: 'Matinas', en: 'Matins' },
+                laudes: { pt: 'Laudes', en: 'Lauds' },
+                prima: { pt: 'Prima', en: 'Prime' },
+                terca: { pt: 'Terça', en: 'Terce' },
+                sexta: { pt: 'Sexta', en: 'Sext' },
+                noa: { pt: 'Noa', en: 'None' },
+                vesperas: { pt: 'Vésperas', en: 'Vespers' },
+                completas: { pt: 'Completas', en: 'Compline' }
+            };
+            
+            return defaultNames[horaId]?.[lang] || horaId;
+        },
+        
+        getHourDescription: function(horaId, lang) {
+            // Primeiro tenta obter do sistema de traduções
+            const translation = this.getTranslation(`desc_${horaId}`, lang);
+            if (translation) return translation;
+            
+            // Fallback para descrições predefinidas
+            const defaultDescriptions = {
+                matinas: { pt: 'Oração durante a noite', en: 'Night prayer' },
+                laudes: { pt: 'Oração da manhã', en: 'Morning prayer' },
+                prima: { pt: 'Primeira hora do dia (6h)', en: 'First hour of the day (6am)' },
+                terca: { pt: 'Terceira hora do dia (9h)', en: 'Third hour of the day (9am)' },
+                sexta: { pt: 'Oração do meio-dia', en: 'Midday prayer' },
+                noa: { pt: 'Nona hora do dia (15h)', en: 'Ninth hour of the day (3pm)' },
+                vesperas: { pt: 'Oração do entardecer', en: 'Evening prayer' },
+                completas: { pt: 'Oração antes de dormir', en: 'Prayer before sleep' }
+            };
+            
+            return defaultDescriptions[horaId]?.[lang] || '';
         }
     },
     
-    // Sistema de tema claro/escuro
+    // Sistema de tema
     theme: {
         init: function() {
-            // Carregar tema salvo ou padrão
             const savedTheme = localStorage.getItem('theme') || APP.config.defaultTheme;
             APP.state.currentTheme = savedTheme;
-            
-            // Aplicar tema
             this.apply(savedTheme);
-            
             console.log('Sistema de tema inicializado:', savedTheme);
         },
         
-        // Aplicar tema (claro ou escuro)
         apply: function(theme) {
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             APP.state.currentTheme = theme;
             
-            // Atualizar ícones de acordo com o tema
             const darkIcon = APP.elements.darkIcon();
             const lightIcon = APP.elements.lightIcon();
             
@@ -315,11 +394,9 @@ const APP = {
             }
         },
         
-        // Alternar entre temas claro e escuro
         toggle: function() {
             const newTheme = APP.state.currentTheme === 'light' ? 'dark' : 'light';
             this.apply(newTheme);
-            
             console.log('Tema alternado para:', newTheme);
         }
     },
@@ -328,15 +405,10 @@ const APP = {
     search: {
         init: function() {
             console.log('Sistema de pesquisa inicializado');
-            
-            // Inicializar resultados vazios
             const searchResults = APP.elements.searchResults();
-            if (searchResults) {
-                this.displayResults([], '');
-            }
+            if (searchResults) this.displayResults([], '');
         },
         
-        // Realizar pesquisa com base na consulta
         perform: function(query) {
             if (!query || query.trim() === '') {
                 this.displayResults([], '');
@@ -344,39 +416,40 @@ const APP = {
             }
             
             query = query.toLowerCase().trim();
-            
-            // Filtrar itens que correspondem à consulta
             const results = APP.data.searchItems.filter(item => 
                 item.title.toLowerCase().includes(query) || 
                 item.description.toLowerCase().includes(query)
             );
             
-            // Exibir resultados
             this.displayResults(results, query);
         },
         
-        // Exibir resultados da pesquisa
         displayResults: function(results, query) {
             const searchResults = APP.elements.searchResults();
             if (!searchResults) return;
             
             if (!query) {
-                searchResults.innerHTML = '<p>Digite algo para pesquisar...</p>';
+                const placeHolderText = APP.language.getTranslation('search_placeholder', APP.state.currentLanguage) || 'Digite algo para pesquisar...';
+                searchResults.innerHTML = `<p>${placeHolderText}</p>`;
                 return;
             }
             
             if (results.length === 0) {
-                searchResults.innerHTML = '<p>Nenhum resultado encontrado para "' + query + '"</p>';
+                const variables = { query: query };
+                const noResultsText = APP.language.getTranslation('search_no_results', APP.state.currentLanguage, variables) || 
+                    `Nenhum resultado encontrado para "${query}"`;
+                searchResults.innerHTML = `<p>${noResultsText}</p>`;
                 return;
             }
             
             let html = '';
             results.forEach(item => {
+                const openText = APP.language.getTranslation('open_button', APP.state.currentLanguage) || 'Abrir';
                 html += `
                     <div class="search-result-item">
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
-                        <a href="${item.link}" class="btn btn-outline">Abrir</a>
+                        <a href="${item.link}" class="btn btn-outline">${openText}</a>
                     </div>
                 `;
             });
@@ -384,80 +457,86 @@ const APP = {
             searchResults.innerHTML = html;
         },
         
-        // Abrir modal de pesquisa
         open: function() {
             const searchModal = APP.elements.searchModal();
             const modalInput = APP.elements.modalSearchInput();
             
             if (searchModal) {
                 searchModal.classList.add('active');
-                
-                if (modalInput) {
-                    setTimeout(() => modalInput.focus(), 100);
-                }
+                if (modalInput) setTimeout(() => modalInput.focus(), 100);
             }
         },
         
-        // Fechar modal de pesquisa
         close: function() {
             const searchModal = APP.elements.searchModal();
-            if (searchModal) {
-                searchModal.classList.remove('active');
-            }
+            if (searchModal) searchModal.classList.remove('active');
         }
     },
     
-    // Sistema de hora atual e horários do ofício
+    // Sistema de horas
     hora: {
         init: function() {
             console.log('Sistema de horário inicializado');
             this.updateCurrentHour();
-            
-            // Atualizar a hora atual a cada minuto
             setInterval(() => this.updateCurrentHour(), 60000);
         },
         
-        // Atualizar informações sobre a hora atual
         updateCurrentHour: function() {
             const horaId = this.determinarHoraAtual();
-            const horaInfo = APP.config.horaOficio[horaId];
+            const horaNome = APP.language.getHourName(horaId, APP.state.currentLanguage);
+            const horaDesc = APP.language.getHourDescription(horaId, APP.state.currentLanguage);
             
             APP.state.horaAtual = {
                 id: horaId,
-                nome: horaInfo.nome,
-                descricao: horaInfo.descricao
+                nome: horaNome,
+                descricao: horaDesc
             };
             
-            // Atualizar UI se estiver na página principal
-            if (APP.state.currentPage === 'index') {
-                this.updateHoraUI();
-            }
+            if (APP.state.currentPage === 'index') this.updateHoraUI();
         },
         
-        // Atualizar a UI com informações da hora atual
         updateHoraUI: function() {
             const container = APP.elements.conteudo();
             if (!container) return;
             
-            // Encontrar a div da hora atual (se existir)
             const horaAtualDiv = container.querySelector('.horario-atual');
             if (horaAtualDiv) {
-                // Atualizar o conteúdo com a hora atual
                 const horaInfo = APP.state.horaAtual;
                 
-                // Construir o HTML com as informações atualizadas
-                horaAtualDiv.innerHTML = `
-                    <h2>Hora atual do Ofício</h2>
-                    <p>De acordo com o horário do seu dispositivo, agora é tempo de rezar: <strong>${horaInfo.nome}</strong></p>
-                    <div>
-                        <a href="horas/${horaInfo.id}.html" class="btn">Rezar ${horaInfo.nome} agora</a>
-                        <button class="btn btn-outline" onclick="APP.notifications.configure()">Ativar notificações</button>
-                    </div>
-                    `;
+                // Atualizar elementos específicos da hora atual que usam textContent
+                const horaAtualNome = horaAtualDiv.querySelector('.hora-atual-nome');
+                const horaAtualDesc = horaAtualDiv.querySelector('.hora-atual-desc');
+                
+                if (horaAtualNome) horaAtualNome.textContent = horaInfo.nome;
+                if (horaAtualDesc) horaAtualDesc.textContent = horaInfo.descricao;
+                
+                // Re-aplicar traduções com variáveis atualizadas
+                APP.language.updateTranslatableElements(APP.state.currentLanguage);
+                
+                // Atualizar elementos data-hora-* com os valores atuais
+                const elementos = document.querySelectorAll('[data-hora-nome]');
+                elementos.forEach(el => {
+                    el.textContent = horaInfo.nome;
+                });
+                
+                const descElements = document.querySelectorAll('[data-hora-desc]');
+                descElements.forEach(el => {
+                    el.textContent = horaInfo.descricao;
+                });
+                
+                // Atualizar href do botão da hora atual
+                const horaAtualBtn = horaAtualDiv.querySelector('a.btn');
+                if (horaAtualBtn) {
+                    horaAtualBtn.href = 'horas/' + horaInfo.id + '.html';
+                    horaAtualBtn.onclick = function(e) {
+                        e.preventDefault();
+                        window.location.href = 'horas/' + horaInfo.id + '.html';
+                        return false;
+                    };
+                }
             }
         },
         
-        // Determinar qual hora do ofício deve ser rezada agora
         determinarHoraAtual: function() {
             const agora = new Date();
             const hora = agora.getHours();
@@ -469,112 +548,74 @@ const APP = {
             if (hora >= 15 && hora < 18) return 'noa';
             if (hora >= 18 && hora < 21) return 'vesperas';
             if (hora >= 21 || hora < 3) return 'completas';
-            return 'matinas'; // Entre 3h e 5h
-        },
-        
-        // Navegar diretamente para a hora atual
-        irParaHoraAtual: function() {
-            if (APP.state.horaAtual) {
-                window.location.href = 'horas/' + APP.state.horaAtual.id + '.html';
-            }
+            return 'matinas';
         }
     },
     
     // Sistema de notificações
     notifications: {
-        // Configurar notificações para todas as horas
         configure: function() {
             if (!("Notification" in window)) {
-                alert("Este navegador não suporta notificações.");
+                const message = APP.language.getTranslation('notifications_not_supported', APP.state.currentLanguage) || 
+                    "Este navegador não suporta notificações.";
+                alert(message);
                 return;
             }
             
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
                     localStorage.setItem("notificar_todas", "sim");
-                    alert("Notificações ativadas! Você receberá lembretes para cada hora do Ofício.");
+                    const message = APP.language.getTranslation('notifications_enabled', APP.state.currentLanguage) || 
+                        "Notificações ativadas! Você receberá lembretes para cada hora do Ofício.";
+                    alert(message);
                     this.schedule();
-                } else {
-                    alert("Você precisa permitir as notificações para receber lembretes das horas do Ofício.");
                 }
             });
         },
         
-        // Configurar notificação para uma hora específica
-        configureHora: function(hora) {
-            if (!("Notification" in window)) {
-                alert("Este navegador não suporta notificações.");
-                return;
+        schedule: function() {
+            if (APP.data.notificationTimer) {
+                clearInterval(APP.data.notificationTimer);
             }
             
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    const horaInfo = APP.config.horaOficio[hora];
-                    localStorage.setItem(`notificar_${hora}`, "sim");
-                    alert(`Notificações ativadas para ${horaInfo.nome}!`);
-                } else {
-                    alert("Você precisa permitir as notificações para receber lembretes das horas do Ofício.");
-                }
-            });
-        },
-        
-        // Agendar verificação de notificações
-        schedule: function() {
-            // Verificar a cada minuto
-            const notificationTimer = setInterval(() => {
+            APP.data.notificationTimer = setInterval(() => {
                 const agora = new Date();
                 const horaAtual = agora.getHours();
                 const minutoAtual = agora.getMinutes();
                 
-                // Verificar cada hora do ofício
                 Object.entries(APP.config.horaOficio).forEach(([horaId, horaInfo]) => {
-                    const notificarTodas = localStorage.getItem("notificar_todas") === "sim";
-                    const notificarEsta = localStorage.getItem(`notificar_${horaId}`) === "sim";
-                    
-                    if ((notificarTodas || notificarEsta) && 
+                    if (localStorage.getItem("notificar_todas") === "sim" && 
                         horaAtual === horaInfo.hora && 
                         minutoAtual === horaInfo.minuto) {
                         
-                        // Enviar notificação
-                        new Notification(`Hora do Ofício: ${horaInfo.nome}`, {
-                            body: `É hora de rezar ${horaInfo.nome}.`,
-                            icon: '/api/placeholder/64/64'
+                        const horaNome = APP.language.getHourName(horaId, APP.state.currentLanguage);
+                        const variables = { nomeDaHora: horaNome };
+                        const title = APP.language.getTranslation('notification_title', APP.state.currentLanguage, variables) || 
+                            `Hora do Ofício: ${horaNome}`;
+                        const body = APP.language.getTranslation('notification_body', APP.state.currentLanguage, variables) || 
+                            `É hora de rezar ${horaNome}.`;
+                            
+                        new Notification(title, {
+                            body: body
                         });
-                        
-                        // Redirecionar para a página da hora correspondente se permitido
-                        const autoDirecionamento = localStorage.getItem("auto_direcionar") === "sim";
-                        if (autoDirecionamento) {
-                            window.location.href = 'horas/' + horaId + '.html';
-                        }
                     }
                 });
             }, 60000);
-            
-            // Guardar o timer para futura referência
-            APP.data.notificationTimer = notificationTimer;
         }
     },
     
-    // Inicialização de event listeners
+    // Event listeners
     initEventListeners: function() {
         console.log('Inicializando event listeners...');
         
-        // Botão de alternância de tema
         const themeToggle = this.elements.themeToggle();
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => this.theme.toggle());
-        }
+        if (themeToggle) themeToggle.addEventListener('click', () => this.theme.toggle());
         
-        // Eventos de pesquisa
         const searchInput = this.elements.searchInput();
-        if (searchInput) {
-            searchInput.addEventListener('focus', () => this.search.open());
-        }
+        if (searchInput) searchInput.addEventListener('focus', () => this.search.open());
         
         const closeSearch = this.elements.closeSearch();
-        if (closeSearch) {
-            closeSearch.addEventListener('click', () => this.search.close());
-        }
+        if (closeSearch) closeSearch.addEventListener('click', () => this.search.close());
         
         const modalSearchInput = this.elements.modalSearchInput();
         if (modalSearchInput) {
@@ -583,41 +624,41 @@ const APP = {
             });
         }
         
-        // Atualizar a data atual no formato brasileiro
         const dataAtualEl = document.getElementById('dataAtual');
         if (dataAtualEl) {
             const hoje = new Date();
             const opcoes = { day: 'numeric', month: 'long', year: 'numeric' };
-            dataAtualEl.textContent = hoje.toLocaleDateString('pt-BR', opcoes);
+            const lang = APP.state.currentLanguage || 'pt-BR';
+            const localeMap = {
+                'pt': 'pt-BR',
+                'en': 'en-US'
+            };
+            dataAtualEl.textContent = hoje.toLocaleDateString(localeMap[lang] || lang, opcoes);
         }
         
-        // Atalhos de teclado
         document.addEventListener('keydown', function(e) {
-            // Ctrl+K ou Cmd+K para pesquisa
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
                 APP.search.open();
             }
             
-            // Esc para fechar modais
-            if (e.key === 'Escape') {
-                APP.search.close();
-            }
+            if (e.key === 'Escape') APP.search.close();
         });
         
-        // Adaptar links para novo sistema de navegação
+        // Adicionar function para o botão de notificações
+        window.configurarNotificacoes = function() {
+            APP.notifications.configure();
+        };
+        
         this.adaptLinks();
     },
     
-    // Adaptar links do antigo sistema de rotas para o novo
     adaptLinks: function() {
-        // Substituir chamadas para carregarPagina() com links HTML reais
         document.querySelectorAll('[onclick*="carregarPagina"]').forEach(el => {
             const match = el.getAttribute('onclick').match(/carregarPagina\('([^']+)'\)/);
             if (match && match[1]) {
                 const pagina = match[1];
                 el.setAttribute('onclick', '');
-                // Verificar se é uma página de hora ou outra página
                 if (Object.keys(APP.config.horaOficio).includes(pagina)) {
                     el.setAttribute('href', 'horas/' + pagina + '.html');
                 } else {
@@ -627,7 +668,7 @@ const APP = {
         });
     },
     
-    // Inicializar os subsistemas em ordem
+    // Inicialização dos subsistemas
     initLanguageSystem: function() {
         this.language.init();
     },
@@ -645,10 +686,10 @@ const APP = {
     }
 };
 
-// Expor a aplicação globalmente para interação da página
+// Expor a aplicação globalmente
 window.APP = APP;
 
-// Inicialização da aplicação quando o documento estiver pronto
+// Inicialização quando o documento estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
     APP.init();
 });

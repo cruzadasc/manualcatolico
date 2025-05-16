@@ -1,61 +1,114 @@
-/*======================================
-  IMPORTAÇÕES E FONTES
-======================================*/
+/*==============================================================================
+  MANUAL CATÓLICO - FOLHA DE ESTILOS PRINCIPAL
+  
+  SUMÁRIO:
+  1. IMPORTAÇÕES E FONTES
+  2. VARIÁVEIS E TEMAS
+  3. RESET E ESTILOS GERAIS
+  4. ELEMENTOS DE LAYOUT
+    4.1 Cabeçalho e Navegação
+    4.2 Conteúdo Principal
+    4.3 Cards e Containers
+    4.4 Banner de Destaque
+    4.5 Rodapé
+  5. COMPONENTES DE INTERFACE
+    5.1 Botões e Controles
+    5.2 Sistema de Busca
+    5.3 Sistema de Idiomas
+    5.4 Elementos Decorativos
+  6. SEÇÕES ESPECÍFICAS
+    6.1 Grade de Horas
+    6.2 Bíblia
+    6.3 Santos do Dia
+  7. RESPONSIVIDADE
+==============================================================================*/
+
+/*==============================================================================
+  1. IMPORTAÇÕES E FONTES
+==============================================================================*/
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap');
 
-/*======================================
-  VARIÁVEIS E TEMAS
-======================================*/
+/*==============================================================================
+  2. VARIÁVEIS E TEMAS
+==============================================================================*/
 /* Tema Claro - Padrão */
 :root {
     /* Cores base */
-    --primary: #8b0000;          /* Vermelho escuro (borgonha) */
-    --primary-light: #a52a2a;    /* Vermelho mais claro */
-    --secondary: #694e2e;        /* Marrom médio */
-    --accent: #f5eed7;           /* Bege claro (cor de pergaminho) */
-    --dark: #2b2417;             /* Marrom muito escuro */
-    --light: #f9f6ed;            /* Creme claro */
-    --white: #ffffff;            /* Branco */
-    
+    --primary: #d03e3e;
+    /* Vermelho vivo e brilhante */
+    --primary-light: #e05c5c;
+    /* Vermelho claro mais vibrante */
+    --secondary: #6e614e;
+    /* Marrom médio mais quente */
+    --accent: #dacfb9;
+    /* Bege pergaminho com tom âmbar */
+    --dark: #493e33;
+    /* Marrom para texto com tom quente */
+    --light: #eae2d4;
+    /* Fundo creme âmbar suave */
+    --white: #f2ece0;
+    /* "Branco" com tom sépia suave */
+
     /* Elementos de interface */
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow: 0 3px 6px rgba(85, 66, 48, 0.08);
+    /* Sombra âmbar suave */
     --transition: all 0.3s ease;
-    --card-bg: #f9f7f0;          /* Fundo de pergaminho claro */
-    --text-color: #2b2417;       /* Marrom escuro para texto */
-    --border-color: #d2c5a8;     /* Borda cor de pergaminho mais escuro */
-    
+    --card-bg: #e5dbca;
+    /* Fundo de cartão com tom de papel envelhecido */
+    --text-color: #4a3f32;
+    /* Texto em marrom médio para conforto visual */
+    --border-color: #c3b49a;
+    /* Borda mais quente */
+
     /* Elementos específicos */
-    --rubric-color: #8b0000;     /* Cor para rubricas (instruções) */
-    --latin-bg: #f5eed7;         /* Fundo do texto em latim */
-    --vernacular-bg: #f9f7f0;    /* Fundo do texto em língua vulgar */
+    --rubric-color: #d03e3e;
+    /* Rubricas no vermelho vivo */
+    --latin-bg: #dcd1bb;
+    /* Fundo do texto em latim mais quente */
+    --vernacular-bg: #e5dbca;
+    /* Fundo de texto vernáculo com tom âmbar */
 }
 
 /* Tema Escuro */
 [data-theme="dark"] {
     /* Cores base */
-    --primary: #bf5454;          /* Vermelho mais suave */
-    --primary-light: #d17676;    /* Vermelho claro */
-    --secondary: #9c8e7b;        /* Marrom médio */
-    --accent: #3f3a2e;           /* Marrom escuro */
-    --dark: #f0e6d2;             /* Cor clara para texto */
-    --light: #292520;            /* Fundo escuro */
-    --white: #352f26;            /* Cor "branca" do modo escuro */
-    
+    --primary: #c6675a;
+    /* Vermelho sépia mais suave com tom terroso */
+    --primary-light: #d88a7e;
+    /* Vermelho claro mais harmonioso */
+    --secondary: #967f63;
+    /* Marrom médio com tom mais dourado */
+    --accent: #433d31;
+    /* Marrom escuro mais rico e menos plano */
+    --dark: #e6dcc8;
+    /* Cor clara para texto ligeiramente amarelada */
+    --light: #252119;
+    /* Fundo escuro com tom mais quente */
+    --white: #32291f;
+    /* Cor "branca" do modo escuro mais natural */
+
     /* Elementos de interface */
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --card-bg: #2d2820;          /* Fundo de pergaminho escuro */
-    --text-color: #f0e6d2;       /* Cor clara para texto */
-    --border-color: #584e3d;     /* Borda mais escura */
-    
+    --shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    /* Sombra mais profunda e suave */
+    --card-bg: #2b251d;
+    /* Fundo de pergaminho escuro mais natural */
+    --text-color: #e6dcc8;
+    /* Cor clara para texto com tom suave */
+    --border-color: #544738;
+    /* Borda com tom mais cálido */
+
     /* Elementos específicos */
-    --rubric-color: #d17676;     /* Cor para rubricas - vermelho mais claro */
-    --latin-bg: #3f3a2e;         /* Fundo do texto em latim */
-    --vernacular-bg: #2d2820;    /* Fundo do texto em língua vulgar */
+    --rubric-color: #d88a7e;
+    /* Rubricas com vermelho mais suave e visível */
+    --latin-bg: #3a342a;
+    /* Fundo do texto em latim mais diferenciado */
+    --vernacular-bg: #2b251d;
+    /* Fundo do texto em língua vulgar harmonizado */
 }
 
-/*======================================
-  RESET E ESTILOS GERAIS
-======================================*/
+/*==============================================================================
+  3. RESET E ESTILOS GERAIS
+==============================================================================*/
 * {
     margin: 0;
     padding: 0;
@@ -68,13 +121,45 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
-    background-image: url('/api/placeholder/10/10'); /* Textura de papel */
+    background-image: url('/api/placeholder/10/10');
+    /* Textura de papel */
     background-repeat: repeat;
 }
 
-/*======================================
-  CABEÇALHO E NAVEGAÇÃO
-======================================*/
+/* Títulos compartilhados */
+.hora-oficio h2,
+.horario-atual h2,
+.card h2 {
+    font-family: 'EB Garamond', serif;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.hora-oficio,
+.horario-atual {
+    text-align: center;
+}
+
+.horario-atual p {
+    padding-bottom: 20px;
+}
+
+/* Alinhamento de texto */
+.text-center {
+    text-align: center;
+}
+
+/*==============================================================================
+  4. ELEMENTOS DE LAYOUT
+==============================================================================*/
+
+/*------------------------------------------------------------------------------
+  4.1 Cabeçalho e Navegação
+------------------------------------------------------------------------------*/
 header {
     background-color: var(--card-bg);
     box-shadow: var(--shadow);
@@ -95,16 +180,20 @@ header {
 }
 
 .logo {
-    font-family: 'EB Garamond', 'Times New Roman', serif;
-    font-size: 1.7rem;
-    font-weight: 700;
     color: var(--primary);
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    transition: color 0.3s ease;
-    background-image: url('/api/placeholder/16/16');
-    background-repeat: no-repeat;
-    background-position: left center;
-    padding-left: 24px;
+    transition: var(--transition);
+}
+
+.logo:hover {
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.logo a {
+    text-decoration: none;
 }
 
 .social-links {
@@ -113,7 +202,9 @@ header {
     align-items: center;
 }
 
-.social-icon, .theme-toggle {
+.social-icon,
+.utility-icon,
+.theme-toggle {
     color: var(--primary);
     font-size: 1.2rem;
     transition: var(--transition);
@@ -122,7 +213,9 @@ header {
     cursor: pointer;
 }
 
-.social-icon:hover, .theme-toggle:hover {
+.social-icon:hover,
+.utility-icon:hover,
+.theme-toggle:hover {
     color: var(--primary-light);
     transform: translateY(-2px);
 }
@@ -136,12 +229,209 @@ header {
     justify-content: center;
     background-color: var(--accent);
     color: var(--primary);
-    cursor: pointer;
 }
 
-/*======================================
-  SISTEMA DE BUSCA
-======================================*/
+/*------------------------------------------------------------------------------
+  4.2 Conteúdo Principal
+------------------------------------------------------------------------------*/
+main {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.horario-atual {
+    border-left: 4px solid var(--primary);
+    padding: 1.5rem;
+    background: linear-gradient(to right, var(--accent), var(--card-bg));
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+/*------------------------------------------------------------------------------
+  4.3 Cards e Containers
+------------------------------------------------------------------------------*/
+.card {
+    background-color: var(--card-bg);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    background-image: url('/api/placeholder/20/20');
+    /* Borda decorativa */
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/*------------------------------------------------------------------------------
+  4.4 Banner de Destaque
+------------------------------------------------------------------------------*/
+.featured-banner {
+    background-image: url('banner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.featured-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 800px;
+    padding: 0 2rem;
+}
+
+.banner-content h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.banner-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.featured-btn {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+}
+
+.featured-btn:hover {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+}
+
+/*------------------------------------------------------------------------------
+  4.5 Rodapé
+------------------------------------------------------------------------------*/
+footer {
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-top: 3rem;
+    border-top: 3px solid var(--primary);
+}
+
+footer p {
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.8;
+    font-size: 0.9rem;
+    font-family: 'Libre Baskerville', serif;
+}
+
+/*==============================================================================
+  5. COMPONENTES DE INTERFACE
+==============================================================================*/
+
+/*------------------------------------------------------------------------------
+  5.1 Botões e Controles
+------------------------------------------------------------------------------*/
+/* Ícones de utilidade */
+.utility-icon {
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.utility-icon:hover {
+    text-decoration: none;
+    background-color: var(--accent);
+}
+
+/* Botões estilo tradicional */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 400;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Badge de notificações */
+.updates-icon {
+    position: relative;
+}
+
+.updates-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*------------------------------------------------------------------------------
+  5.2 Sistema de Busca
+------------------------------------------------------------------------------*/
 /* Barra de busca */
 .search-container {
     position: relative;
@@ -264,193 +554,9 @@ header {
     font-family: 'EB Garamond', serif;
 }
 
-/*======================================
-  CONTEÚDO PRINCIPAL
-======================================*/
-main {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-/* Cards e Containers */
-.card {
-    background-color: var(--card-bg);
-    border-radius: 4px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border: 1px solid var(--border-color);
-    background-image: url('/api/placeholder/20/20'); /* Borda decorativa */
-    background-repeat: repeat;
-    background-position: center;
-    background-size: cover;
-}
-
-.horario-atual {
-    border-left: 4px solid var(--primary);
-    padding: 1.5rem;
-    background: linear-gradient(to right, var(--accent), var(--card-bg));
-    border-radius: 4px;
-    margin-bottom: 2rem;
-}
-
-/* Títulos */
-.hora-oficio h2, .horario-atual h2, .card h2 {
-    font-family: 'EB Garamond', serif;
-    color: var(--primary);
-    margin-bottom: 1rem;
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-/* Grade de horas */
-.horas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.hora-card {
-    background-color: var(--card-bg);
-    border-radius: 4px;
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    text-align: center;
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-}
-
-.hora-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.hora-card h3 {
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    font-family: 'EB Garamond', serif;
-    font-size: 1.3rem;
-}
-
-.hora-card p {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
-.hora-icon {
-    font-size: 2rem;
-    color: var(--primary);
-    margin-bottom: 1rem;
-}
-
-/*======================================
-  BANNER DE DESTAQUE
-======================================*/
-.featured-banner {
-    background-image: url('/api/placeholder/1200/400');
-    background-size: cover;
-    background-position: center;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    margin-bottom: 2rem;
-}
-
-.featured-banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.banner-content {
-    position: relative;
-    z-index: 2;
-    color: white;
-    max-width: 800px;
-    padding: 0 2rem;
-}
-
-.banner-content h1 {
-    font-family: 'EB Garamond', serif;
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
-.banner-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    font-family: 'Libre Baskerville', serif;
-}
-
-.featured-btn {
-    background-color: var(--primary);
-    border: 2px solid var(--primary);
-    color: white;
-    font-size: 1.1rem;
-    padding: 0.8rem 2rem;
-}
-
-.featured-btn:hover {
-    background-color: transparent;
-    color: white;
-    border-color: white;
-}
-
-/*======================================
-  BOTÕES E CONTROLES
-======================================*/
-/* Botões estilo tradicional */
-.btn {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    background-color: var(--primary);
-    color: var(--white);
-    border: none;
-    border-radius: 4px;
-    font-family: 'Libre Baskerville', serif;
-    font-weight: 400;
-    cursor: pointer;
-    transition: var(--transition);
-    text-decoration: none;
-    text-align: center;
-    margin-right: 0.5rem;
-    margin-top: 1rem;
-}
-
-.btn:hover {
-    background-color: var(--primary-light);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
-}
-
-.btn-outline {
-    background-color: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-}
-
-.btn-outline:hover {
-    background-color: var(--primary);
-    color: var(--light);
-}
-
-/*======================================
-  SISTEMA DE IDIOMAS
-======================================*/
+/*------------------------------------------------------------------------------
+  5.3 Sistema de Idiomas
+------------------------------------------------------------------------------*/
 /* Botão de idioma */
 .language-button-container {
     position: relative;
@@ -511,6 +617,7 @@ main {
 }
 
 .language-option i {
+    visibility: hidden;
     margin-right: 8px;
     width: 16px;
 }
@@ -520,9 +627,9 @@ main {
     transition: opacity 0.3s ease;
 }
 
-/*======================================
-  ELEMENTOS DECORATIVOS
-======================================*/
+/*------------------------------------------------------------------------------
+  5.4 Elementos Decorativos
+------------------------------------------------------------------------------*/
 /* Iniciais decorativas */
 .decorative-initial::first-letter {
     font-size: 3em;
@@ -567,45 +674,64 @@ main {
     background-color: var(--primary);
 }
 
-/*======================================
-  RODAPÉ
-======================================*/
-footer {
-    background-color: var(--dark);
-    color: var(--light);
-    padding: 2rem 1rem;
+/* Separadores */
+.separador-vertical {
+    width: 1px;
+    background-color: var(--border-color);
+    margin: 0 0.5rem;
+}
+
+/*==============================================================================
+  6. SEÇÕES ESPECÍFICAS
+==============================================================================*/
+
+/*------------------------------------------------------------------------------
+  6.1 Grade de Horas
+------------------------------------------------------------------------------*/
+.horas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.hora-card {
+    background-color: var(--card-bg);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
     text-align: center;
-    margin-top: 3rem;
-    border-top: 3px solid var(--primary);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
 }
 
-footer p {
-    max-width: 600px;
-    margin: 0 auto;
-    opacity: 0.8;
+.hora-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.hora-card h3 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.3rem;
+}
+
+.hora-card p {
     font-size: 0.9rem;
-    font-family: 'Libre Baskerville', serif;
+    margin-bottom: 1rem;
 }
 
-/*======================================
-  RESPONSIVIDADE
-======================================*/
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-    }
-    
-    .search-container {
-        order: 3;
-        width: 100%;
-    }
+.hora-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
 }
 
-/*======================================
-  SEÇÃO DA BÍBLIA
-======================================*/
+/*------------------------------------------------------------------------------
+  6.2 Bíblia
+------------------------------------------------------------------------------*/
 .biblia-container {
     display: flex;
     align-items: center;
@@ -649,13 +775,9 @@ footer p {
     display: block;
 }
 
-/*======================================
-  SEÇÃO DOS SANTOS DO DIA
-======================================*/
-.text-center {
-    text-align: center;
-}
-
+/*------------------------------------------------------------------------------
+  6.3 Santos do Dia
+------------------------------------------------------------------------------*/
 .santos-container {
     display: flex;
     gap: 1rem;
@@ -721,26 +843,26 @@ footer p {
     margin: 1rem 0;
 }
 
-.btn-sm {
-    padding: 0.4rem 1rem;
-    font-size: 0.9rem;
-}
-
-.separador-vertical {
-    width: 1px;
-    background-color: var(--border-color);
-    margin: 0 0.5rem;
-}
-
+/*==============================================================================
+  7. RESPONSIVIDADE
+==============================================================================*/
 @media (max-width: 768px) {
-    .biblia-container {
+    .navbar {
         flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
     }
-    
+
+    .search-container {
+        order: 3;
+        width: 100%;
+    }
+
+    .biblia-container,
     .santos-container {
         flex-direction: column;
     }
-    
+
     .separador-vertical {
         width: 100%;
         height: 1px;
